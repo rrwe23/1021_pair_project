@@ -83,3 +83,26 @@ def delete_comment(reqeust, review_pk, comment_pk):
     Comment.objects.get(pk=comment_pk).delete()
 
     return redirect('articles:detail', review_pk)
+
+def search(request):
+    search = request.GET.get('search')
+    search_options = request.GET.get('Search_option')
+
+    
+    if search_options == 'movie_name__contains':
+        reviews = Review.objects.filter(movie_name__contains=search)
+        
+    elif search_options == 'title__contains':
+        reviews = Review.objects.filter(title__contains=search)
+
+    page = request.GET.get('page', '1')
+    paginator = Paginator(reviews, 3)
+    page_obj = paginator.get_page(page)
+
+    context = {
+        'question_list': page_obj,
+        'search_options' : search_options,
+        'search' : search
+    }
+
+    return render(request, 'articles/search.html' ,context)

@@ -30,7 +30,7 @@
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
+          <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="{% url 'articles:index' %}">Home</a>
@@ -55,6 +55,15 @@
                 </li>
               {% endif %}
             </ul>
+            <form class="d-flex" role="search" action='{% url 'articles:search' %}'>
+              <select class="form-select" aria-label="Default select example" name='Search_option'>
+                <option value="movie_name__contains">영화제목</option>
+                <option value="title__contains">리뷰제목</option>
+                {% comment %} <option value="user__contains">작성자</option> {% endcomment %}
+              </select>
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name='search'>
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
           </div>
         </div>
       </nav>
