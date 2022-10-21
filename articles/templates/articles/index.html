@@ -8,28 +8,30 @@
 </div>
 
 <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
+
     {% for review in question_list %}
-        <div class="col d-flex justify-content-center">
-            <a href="{% url 'articles:detail' review.pk %}" class="text-decoration-none">
-                <div class="card" style="width: 18rem;">
-                    {% if review.image %}
-                        <img src="{{ review.image.url }}" class="card-img-top" alt="{{ review.image }}">
-                    {% else %}
-                        <img src="{% static 'images/dummy-image-square.jpg' %}" class="card-img-top" alt="">
-                    {% endif %}
-
-                    <div class="card-body text-dark">
-                        <h5 class="card-title">{{ review.title }}</h5>
-                        <p class="card-text card-body-text">{{ review.content }}</p>
-                    </div>
-
-                    <div class="card-footer text-muted">
-                        <p class="card-text">{{ review.user }}</p>
-                    </div>
+    <div class="col d-flex justify-content-center">
+        <a href="{% url 'articles:detail' review.pk %}" class="text-decoration-none">
+            <div class="card" style="width: 18rem;">
+                {% if review.image %}
+                <img src="{{ review.image.url }}" class="card-img-top" alt="{{ review.image }}">
+                {% else %}
+                <img src="{% static 'images/dummy-image-square.jpg' %}" class="card-img-top" alt="">
+                {% endif %}
+                
+                <div class="card-body text-dark">
+                    <h5 class="card-title">{{ review.title }}</h5>
+                    <p class="card-text card-body-text">{{ review.content }}</p>
                 </div>
-            </a>
-        </div>
+                
+                <div class="card-footer text-muted">
+                    <p class="card-text">{{ review.user }}</p>
+                </div>
+            </div>
+        </a>
+    </div>
     {% endfor %}
+
 </div>
 
 <ul class="pagination justify-content-center">
