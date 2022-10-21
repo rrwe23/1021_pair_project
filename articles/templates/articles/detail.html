@@ -7,10 +7,34 @@
     {{ review.created_at }}
     ||
     {{ review.updated_at }}</p>
-
+  
+  {% if review.image %}
+    <img src="{{ review.image.url }}" alt="">
+  {% endif %}
   <p>{{ review.content }}</p>
 
   <a href="{% url 'articles:update' review.pk %}">수정하기</a>
   <a href="{% url 'articles:delete' review.pk %}">삭제하기</a>
+  
+  <div>
+    <h1>댓글</h1>
+    <form action="{% url 'articles:create_comment' review.pk %}" method="POST">
+      {% csrf_token %}
+      {% bootstrap_form comment_form %}
+      <input type="submit" class="btn btn-primary" value="댓글 작성">
+    </form>
 
+    {% for comment in comments %}
+      <p>{{ comment.user }}</p>
+      <p>{{ comment.content }}</p>
+      {% if comment.user == request.user %}
+        <p>
+          <form action="{% url 'articles:delete_comment' review.pk comment.pk %}">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-primary" value="삭제" >
+          </form>
+        </p>
+      {% endif %}
+    {% endfor %}
+  </div>
 {% endblock %}
