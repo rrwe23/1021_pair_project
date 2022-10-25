@@ -1,11 +1,26 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
 {% block content %}
-<h1><span class="text-primary">{{ user.username }}</span> 페이지</h1>
-<p>{{ user.email }}</p>
-{% if request.user == user %}
-<a href="{% url 'accounts:update' user.pk %}" class="btn btn-primary">회원 정보 수정</a>
-<a href="{% url 'accounts:password' %}" class='btn btn-warning'>비밀번호 변경</a>
-<a href="{% url 'accounts:delete' %}" class='btn btn-danger'>계정삭제</a>
-{% endif %}
-{% endblock  %}
+  <h1>
+    <span class="text-primary">{{ user.username }}</span>
+    페이지</h1>
+  <p>팔로우 :
+    {{ user.followings.count }}
+    | 팔로워 :
+    {{ user.followers.count }}</p>
+  {% if request.user != user %}
+    <a href="{% url 'accounts:follow' user.pk %}">
+      {% if request.user in user.followers.all %}
+        팔로우 취소
+      {% else %}
+        팔로우
+      {% endif %}
+    </a>
+  {% endif %}
+  <p>{{ user.email }}</p>
+  {% if request.user == user %}
+    <a href="{% url 'accounts:update' user.pk %}" class="btn btn-primary">회원 정보 수정</a>
+    <a href="{% url 'accounts:password' %}" class='btn btn-warning'>비밀번호 변경</a>
+    <a href="{% url 'accounts:delete' %}" class='btn btn-danger'>계정삭제</a>
+  {% endif %}
+{% endblock %}

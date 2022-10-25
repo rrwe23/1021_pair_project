@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import CommentForm, ReviewForm
 from .models import Review, Comment
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def index(request):
@@ -106,3 +107,16 @@ def search(request):
     }
 
     return render(request, 'articles/search.html' ,context)
+@login_required
+def like(request,pk):
+    review = Review.objects.get(pk=pk)
+    # if review.like_users.filter(id=request.user.id)exists()
+    
+    if request.user in review.like_users.all():
+        review.like_users.remove(request.user)
+    else:
+        review.like_users.add(request.user)
+    
+    return redirect('articles:detail',pk)
+    
+
